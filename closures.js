@@ -15,9 +15,12 @@ function outer() {
   another variable called 'inner'. */
   
   // Code Here
+  let inner = outer();
+
   
   //Once you do that, invoke inner.
   
+  inner();
   //Code Here
   
   
@@ -49,7 +52,9 @@ function outer() {
   When callJake is invoked with '435-555-9248', it returns 'Calling Jake at 435-555-9248' 
   (HINT: You will need to pass in arguments to both function invocations)
   */
-  
+  let callJake = callFriend('Jake');
+
+  callJake('435-555-9248')
     //Code Here
   
   
@@ -69,13 +74,21 @@ function outer() {
   properly. */
   
   //Code Here
+
+  function makeCounter() {
+    var num = 0
+
+    return function counter() {
+     return ++num;
+    }
+  }
   
   //Uncomment this once you make your function
-  //   var count = makeCounter();
-  //   count(); // 1
-  //   count(); // 2
-  //   count(); // 3
-  //   count(); // 4
+    var count = makeCounter();
+    count(); // 1
+    count(); // 2
+    count(); // 3
+    count(); // 4
   
   
   
@@ -102,20 +115,26 @@ function outer() {
   
   function counterFactory(value) {
   
-    // Code here.
+
   
   
     return {
-
+      inc: function() {
+        return ++value;
+      },
+  
+      dec: function() {
+        return --value;
+      }
     }
   }
   
   
   counter = counterFactory(10);
-  // counter.inc() // 11
-  // counter.inc() // 12
-  // counter.inc() // 13
-  // counter.dec() // 12
+  counter.inc() // 11
+  counter.inc() // 12
+  counter.inc() // 13
+  counter.dec() // 12
   
   
   
@@ -142,10 +161,13 @@ function outer() {
     var welcomeText = 'You\'re doing awesome, keep it up ';
   
     // code message function here.
+    function message() {
+      return welcomeText + firstname + ' ' + lastname + '.';
+    }
   
   
     //Uncommment this to return the value of your message function
-    //return message;
+    return message;
   
   }
   
@@ -183,11 +205,14 @@ function outer() {
     // Anything that is being returned is made public and can be invoked from
     // outside our lexical scope
     return {
+      publicMethod: function() {
+        return privateMethod();
+      }
       // Code here.
     };
   
   })();
-  
+  module.publicMethod
   
   
   /******************************************************************************\
@@ -202,6 +227,13 @@ function outer() {
     var secret = 143;
 
     return {
+      addToSecret: function(par) {
+        return secret += par;
+      },
+
+      takeAwayFromSecret: function(par) {
+        return secret -= par;
+      }
       // Code here
     }
   }
@@ -230,9 +262,11 @@ function outer() {
   
   function timeOutCounter() {
     for (var i = 0; i <= 5; i++) {
-      setTimeout(function() {
-          console.log(i)
-      }, i * 1000)
+      setTimeout(function(x){ 
+        return function(){ 
+          console.log(x); 
+        }; 
+      }(i), 1000*i)
     }
   }
   timeOutCounter();
